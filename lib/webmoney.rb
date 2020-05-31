@@ -196,18 +196,18 @@ module Webmoney
     url = @interfaces[iface]
 
     http = Net::HTTP.new(url.host, url.port)
-    http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-    if File.file? @ca_cert
-      http.ca_file = @ca_cert
-    elsif File.directory? @ca_cert
-      http.ca_path = @ca_cert
-    else
-      raise CaCertificateError, @ca_cert
-    end
-    unless classic?
-      http.cert = @cert
-      http.key = @key
-    end
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    # if File.file? @ca_cert
+    #   http.ca_file = @ca_cert
+    # elsif File.directory? @ca_cert
+    #   http.ca_path = @ca_cert
+    # else
+    #   raise CaCertificateError, @ca_cert
+    # end
+    # unless classic?
+    #   http.cert = @cert
+    #   http.key = @key
+    # end
     http.use_ssl = true
     @last_request = xml
     @last_response = result = http.post( url.path, xml, "Content-Type" => "text/xml" )
